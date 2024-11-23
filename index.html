@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(145deg, #0f1c3c, #162a55);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1c2e54;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    nav {
+      background: #1c2e54;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      position: sticky;
+      bottom: 0;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a.active {
+      background: #4a78c7;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      display: none;
+      width: 100%;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .categories {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category {
+      background: #233b68;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .seller-button {
+      margin-top: 30px;
+      padding: 15px 20px;
+      background: #4a78c7;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .seller-button:hover {
+      background: #5b88d9;
+      transform: translateY(-3px);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .search-bar input {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    form input, form textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      font-size: 14px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    form button {
+      padding: 10px 15px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #4a78c7;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background: #5b88d9;
+    }
+
+    footer {
+      background: #1c2e54;
+      text-align: center;
+      padding: 10px 0;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <header>Marketplace</header>
+  <nav>
+    <a href="javascript:void(0);" onclick="showPage('main')" id="main-link" class="active">Главная</a>
+    <a href="javascript:void(0);" onclick="showPage('search')" id="search-link">Поиск</a>
+    <a href="javascript:void(0);" onclick="showPage('profile')" id="profile-link">Профиль</a>
+  </nav>
+  <main>
+    <!-- Главная -->
+    <section id="main" class="page active">
+      <h2>Категории</h2>
+      <div class="categories">
+        <div class="category">Для дома</div>
+        <div class="category">Техника</div>
+        <div class="category">Одежда</div>
+      </div>
+      <button class="seller-button" onclick="openSellerForm()">Стать продавцом</button>
+    </section>
+
+    <!-- Поиск -->
+    <section id="search" class="page">
+      <h2>Поиск товаров</h2>
+      <div class="search-bar">
+        <input type="text" placeholder="Введите запрос для поиска">
+      </div>
+    </section>
+
+    <!-- Профиль -->
+    <section id="profile" class="page">
+      <h2>Профиль</h2>
+      <p>Ваш уникальный ID: <span id="user-id"></span></p>
+    </section>
+
+    <!-- Форма для продавцов -->
+    <section id="seller-form" class="page">
+      <h2>Форма для продавцов</h2>
+      <form id="seller-form-element">
+        <input type="text" id="seller-number" placeholder="Ваш номер" required>
+        <textarea id="seller-description" placeholder="Описание" required></textarea>
+        <button type="submit">Отправить заявку</button>
+      </form>
+    </section>
+  </main>
+  <footer>Marketplace © 2024</footer>
+
+  <script>
+    const CHAT_ID = '1258306425';
+    const BOT_TOKEN = '7262467632:AAGv2FmMkHDcQKzYSLbw1VNtdapGi1pAw40';
+
+    function getUserId() {
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        userId = 'USER-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        localStorage.setItem('userId', userId);
+      }
+      return userId;
+    }
+
+    const userId = getUserId();
+    document.getElementById('user-id').textContent = userId;
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      document.querySelectorAll("nav a").forEach(link => link.classList.remove("active"));
+      document.getElementById(`${pageId}-link`).classList.add("active");
+    }
+
+    function openSellerForm() {
+      showPage('seller-form');
+    }
+
+    document.getElementById('seller-form-element').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const number = document.getElementById('seller-number').value;
+      const description = document.getElementById('seller-description').value;
+
+      const message = `📩 Новая заявка от продавца:\n\n` +
+                      `🆔 ID: ${userId}\n` +
+                      `📞 Номер: ${number}\n` +
+                      `📝 Описание: ${description}`;
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+          })
+        });
+
+        if (response.ok) {
+          alert('Заявка успешно отправлена!');
+          e.target.reset();
+        } else {
+          alert('Ошибка при отправке заявки.');
+        }
+      } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Не удалось отправить заявку.');
+      }
+    });
+  </script>
+</body>
+</html>
